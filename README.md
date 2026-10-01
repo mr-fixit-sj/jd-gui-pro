@@ -2,10 +2,14 @@
 
 JD-GUI, a standalone graphical utility that displays Java sources from CLASS files.
 
-![](https://raw.githubusercontent.com/java-decompiler/jd-gui/master/src/website/img/jd-gui.png)
+This is a fork of [java-decompiler/jd-gui](https://github.com/java-decompiler/jd-gui), updated to work
+with class files compiled by recent JDKs (see [Changes in this fork](#changes-in-this-fork)).
 
+![](src/website/img/jd-gui.png)
+
+- JD-GUI source code (this fork): [https://github.com/mr-fixit-sj/jd-gui-pro](https://github.com/mr-fixit-sj/jd-gui-pro)
+- Original JD-GUI source code: [https://github.com/java-decompiler/jd-gui](https://github.com/java-decompiler/jd-gui)
 - Java Decompiler projects home page: [http://java-decompiler.github.io](http://java-decompiler.github.io)
-- JD-GUI source code: [https://github.com/java-decompiler/jd-gui](https://github.com/java-decompiler/jd-gui)
 
 ## Description
 JD-GUI is a standalone graphical utility that displays Java source codes of 
@@ -33,6 +37,13 @@ generate :
 - _"build/distributions/jd-gui-x.y.z-0.noarch.rpm"_
 
 The resulting JD-GUI runs on Java 8+.
+
+## Changes in this fork
+- Search, "Open Type", "Open Type Hierarchy" and the class outline work with class files compiled
+  for Java 14 and later (ASM upgraded from 7.1 to 9.10.1).
+- String constant search also matches multi-line strings (text blocks).
+- The build runs on current JDKs: Gradle 8.14 instead of 5.2.1, Maven Central and JitPack instead
+  of the discontinued JCenter, and updated ProGuard, Launch4j and OS package plugins.
 
 ## Supported class file versions
 - Browsing, search, "Open Type" and "Open Type Hierarchy" support class files up to Java 27.
@@ -77,6 +88,8 @@ launch JD-GUI with your extensions
 Released under the [GNU GPL v3](LICENSE).
 
 ## Donations
+Donations go to Emmanuel Dupuy, the author of the original JD-GUI and JD-Core.
+
 Did JD-GUI help you to solve a critical situation? Do you use JD-Eclipse daily? What about making a donation?
 
-[![paypal](https://raw.githubusercontent.com/java-decompiler/jd-gui/master/src/website/img/btn_donate_euro.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C88ZMVZ78RF22) [![paypal](https://raw.githubusercontent.com/java-decompiler/jd-gui/master/src/website/img/btn_donate_usd.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CRMXT4Y4QLQGU)
+[![paypal](src/website/img/btn_donate_euro.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C88ZMVZ78RF22) [![paypal](src/website/img/btn_donate_usd.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CRMXT4Y4QLQGU)

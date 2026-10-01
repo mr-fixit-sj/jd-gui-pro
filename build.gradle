@@ -131,7 +131,7 @@ ospackage {
     packageName = project.name
     release = '0'
     summary = 'A Java Decompiler'
-    url = 'https://github.com/java-decompiler/jd-gui'
+    url = 'https://github.com/mr-fixit-sj/jd-gui-pro'
 
     into '/opt/' + project.name
     from (proguard.outJarFiles[0]) {

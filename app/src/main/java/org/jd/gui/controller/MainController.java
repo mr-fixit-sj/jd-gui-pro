@@ -364,7 +364,7 @@ public class MainController implements API {
             Desktop desktop = Desktop.getDesktop();
             if (desktop.isSupported(Desktop.Action.BROWSE)) {
                 try {
-                    desktop.browse(URI.create("https://github.com/java-decompiler/jd-gui/issues"));
+                    desktop.browse(URI.create("https://github.com/mr-fixit-sj/jd-gui-pro/issues"));
                 } catch (IOException e) {
                     assert ExceptionUtil.printStackTrace(e);
                 }
