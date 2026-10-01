@@ -13,12 +13,15 @@ JD-GUI is a standalone graphical utility that displays Java source codes of
 for instant access to methods and fields.
 
 ## How to build JD-GUI ?
-Requires JDK 17 or later (with the `jmods` directory, used by ProGuard). The resulting
-JD-GUI still runs on Java 8+, and reads class files up to Java 27 (newer versions are read
-on a best-effort basis).
+Requirements:
+- A JDK between 9 and 24 that includes the `jmods` directory (used by ProGuard). Tested with JDK 21.
+  JDK 25+ is not supported yet by the Gradle version used (8.14).
+- Network access to Maven Central, the Gradle Plugin Portal and [JitPack](https://jitpack.io)
+  (JD-Core is no longer published on Maven Central and is built by JitPack from its GitHub repository).
+
 ```
-> git clone https://github.com/java-decompiler/jd-gui.git
-> cd jd-gui
+> git clone https://github.com/mr-fixit-sj/jd-gui-pro.git
+> cd jd-gui-pro
 > ./gradlew build 
 ```
 generate :
@@ -28,6 +31,17 @@ generate :
 - _"build/distributions/jd-gui-osx-x.y.z.tar"_
 - _"build/distributions/jd-gui_x.y.z-0_all.deb"_
 - _"build/distributions/jd-gui-x.y.z-0.noarch.rpm"_
+
+The resulting JD-GUI runs on Java 8+.
+
+## Supported class file versions
+- Browsing, search, "Open Type" and "Open Type Hierarchy" support class files up to Java 27.
+  Newer class files are read on a best-effort basis.
+- Decompilation is done by JD-Core 1.1.3, which predates Java 14. Classes compiled with newer
+  versions are decompiled, but recent language features are not fully reconstructed: records
+  appear as classes extending `java.lang.Record` (with `toString`/`equals`/`hashCode` shown as
+  byte code), `sealed`/`permits` is omitted and methods using pattern matching `switch` are
+  shown as byte code.
 
 ## How to launch JD-GUI ?
 - Double-click on _"jd-gui-x.y.z.jar"_
