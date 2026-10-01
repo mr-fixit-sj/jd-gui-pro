@@ -412,7 +412,8 @@ public class SearchInConstantPoolsController implements IndexesChangeListener {
 
         sbPattern.append(".*");
 
-        return Pattern.compile(sbPattern.toString());
+        // DOTALL: string constants may span several lines (text blocks)
+        return Pattern.compile(sbPattern.toString(), Pattern.DOTALL);
     }
 
     protected void onTypeSelected(URI uri, String pattern, int flags) {

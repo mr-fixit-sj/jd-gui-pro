@@ -10,6 +10,7 @@ package org.jd.gui.service.indexer;
 import org.jd.gui.api.API;
 import org.jd.gui.api.model.Container;
 import org.jd.gui.api.model.Indexes;
+import org.jd.gui.util.classfile.ClassReaderUtil;
 import org.jd.gui.util.exception.ExceptionUtil;
 import org.objectweb.asm.*;
 
@@ -40,7 +41,7 @@ public class JavaModuleInfoFileIndexerProvider extends AbstractIndexerProvider {
 
         try (InputStream inputStream = entry.getInputStream()) {
             // Index field, method, interfaces & super type
-            ClassReader classReader = new ClassReader(inputStream);
+            ClassReader classReader = ClassReaderUtil.newClassReader(inputStream);
             classReader.accept(classIndexer, SKIP_CODE|SKIP_DEBUG|SKIP_FRAMES);
 
             // Append sets to indexes
@@ -55,7 +56,7 @@ public class JavaModuleInfoFileIndexerProvider extends AbstractIndexerProvider {
     protected class ClassIndexer extends ClassVisitor {
         protected ModuleIndexer moduleIndexer = new ModuleIndexer();
 
-        public ClassIndexer() { super(Opcodes.ASM7); }
+        public ClassIndexer() { super(Opcodes.ASM9); }
 
         @Override
         public ModuleVisitor visitModule(String moduleName, int moduleFlags, String moduleVersion) {
@@ -65,7 +66,7 @@ public class JavaModuleInfoFileIndexerProvider extends AbstractIndexerProvider {
     }
 
     protected class ModuleIndexer extends ModuleVisitor {
-        public ModuleIndexer() { super(Opcodes.ASM7); }
+        public ModuleIndexer() { super(Opcodes.ASM9); }
 
         @Override public void visitMainClass(final String mainClass) { typeReferenceSet.add(mainClass); }
         @Override public void visitRequire(final String module, final int access, final String version) { javaModuleReferenceSet.add(module); }

@@ -9,6 +9,7 @@ package org.jd.gui.util.container;
 
 import org.jd.gui.api.model.Container;
 import org.jd.gui.model.container.ContainerEntryComparator;
+import org.jd.gui.util.classfile.ClassReaderUtil;
 import org.jd.gui.util.exception.ExceptionUtil;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -92,11 +93,11 @@ public class JarContainerEntryUtil {
 
     protected static void populateInnerTypePaths(final HashSet<String> innerTypePaths, Container.Entry entry) {
         try (InputStream is = entry.getInputStream()) {
-            ClassReader classReader = new ClassReader(is);
+            ClassReader classReader = ClassReaderUtil.newClassReader(is);
             String p = entry.getPath();
             final String prefixPath = p.substring(0, p.length() - classReader.getClassName().length() - 6);
 
-            ClassVisitor classVisitor = new ClassVisitor(Opcodes.ASM7) {
+            ClassVisitor classVisitor = new ClassVisitor(Opcodes.ASM9) {
                 public void visitInnerClass(final String name, final String outerName, final String innerName, final int access) {
                     innerTypePaths.add(prefixPath + name + ".class");
                 }
