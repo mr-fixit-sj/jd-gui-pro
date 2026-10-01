@@ -3,7 +3,7 @@ apply plugin: 'java'
 dependencies {
     implementation 'com.fifesoft:rsyntaxtextarea:3.0.4'
     implementation 'org.ow2.asm:asm:9.10.1'
-    implementation 'com.github.java-decompiler:jd-core:v' + parent.jdCoreVersion
+    implementation 'com.github.mr-fixit-sj:jd-core-pro:' + parent.jdCoreRef
     implementation project(':api')
     testImplementation 'junit:junit:4.13.2'
 }

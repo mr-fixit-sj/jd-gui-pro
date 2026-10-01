@@ -23,7 +23,8 @@ Requirements:
 - A JDK between 11 and 24 that includes the `jmods` directory (used by ProGuard). Built and tested
   by CI with JDK 11, 17 and 21. JDK 25+ is not supported yet by the Gradle version used (8.14).
 - Network access to Maven Central, the Gradle Plugin Portal and [JitPack](https://jitpack.io)
-  (JD-Core is no longer published on Maven Central and is built by JitPack from its GitHub repository).
+  (JD-Core Pro is not published on Maven Central: JitPack builds it from its GitHub repository, at the tag or
+  commit set by `jdCoreRef` in `build.gradle`).
 
 ```
 > git clone https://github.com/mr-fixit-sj/jd-gui-pro.git
@@ -39,6 +40,7 @@ generate :
 The resulting JD-GUI runs on Java 8+.
 
 ## Changes in this fork
+- Decompiler: JD-Core Pro instead of JD-Core 1.1.3 (see [Supported class file versions](#supported-class-file-versions)).
 - Search, "Open Type", "Open Type Hierarchy" and the class outline work with class files compiled
   for Java 14 and later (ASM upgraded from 7.1 to 9.10.1).
 - String constant search also matches multi-line strings (text blocks).
@@ -47,13 +49,14 @@ The resulting JD-GUI runs on Java 8+.
 - The Linux `.deb` and `.rpm` packages are no longer built: on Linux, run the jar directly.
 
 ## Supported class file versions
+- Decompilation is done by [JD-Core Pro](https://github.com/mr-fixit-sj/jd-core-pro) 2.0.0, a fork of JD-Core
+  1.1.3 that supports the language features up to Java 17: switch expressions, type patterns
+  (`o instanceof String s`), records, sealed classes and text blocks. It also fixes the decompilation of string
+  concatenations and try-with-resources compiled by JDK 9 and later.
+- Classes compiled with newer versions are decompiled, but the language features of Java 21+ (pattern matching for
+  `switch`, record patterns) are not reconstructed: the methods using them are shown as byte code.
 - Browsing, search, "Open Type" and "Open Type Hierarchy" support class files up to Java 27.
   Newer class files are read on a best-effort basis.
-- Decompilation is done by JD-Core 1.1.3, which predates Java 14. Classes compiled with newer
-  versions are decompiled, but recent language features are not fully reconstructed: records
-  appear as classes extending `java.lang.Record` (with `toString`/`equals`/`hashCode` shown as
-  byte code), `sealed`/`permits` is omitted and methods using pattern matching `switch` are
-  shown as byte code.
 
 Every push to `master` and every pull request is built and tested by
 [GitHub Actions](https://github.com/mr-fixit-sj/jd-gui-pro/actions/workflows/ci.yml); the jars and the
