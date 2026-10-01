@@ -10,11 +10,11 @@ package org.jd.gui.service.type;
 import org.jd.gui.api.API;
 import org.jd.gui.api.model.Container;
 import org.jd.gui.api.model.Type;
+import org.jd.gui.util.classfile.ClassReaderUtil;
 import org.jd.gui.util.exception.ExceptionUtil;
 import org.objectweb.asm.*;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class ClassFileTypeFactoryProvider extends AbstractTypeFactoryProvider {
             JavaType type;
 
             try (InputStream is = entry.getInputStream()) {
-                ClassReader classReader = new ClassReader(is);
+                ClassReader classReader = ClassReaderUtil.newClassReader(is);
 
                 if ((fragment != null) && (fragment.length() > 0)) {
                     // Search type name in fragment. URI format : see jd.gui.api.feature.UriOpener
@@ -87,8 +87,8 @@ public class ClassFileTypeFactoryProvider extends AbstractTypeFactoryProvider {
                                 entry = entryFound;
 
                                 try (InputStream is2 = entry.getInputStream()) {
-                                    classReader = new ClassReader(is2);
-                                } catch (IOException e) {
+                                    classReader = ClassReaderUtil.newClassReader(is2);
+                                } catch (Exception e) {
                                     assert ExceptionUtil.printStackTrace(e);
                                     return null;
                                 }
@@ -109,7 +109,7 @@ public class ClassFileTypeFactoryProvider extends AbstractTypeFactoryProvider {
                 }
 
                 type = new JavaType(entry, classReader, -1);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 assert ExceptionUtil.printStackTrace(e);
                 type = null;
             }
@@ -138,7 +138,7 @@ public class ClassFileTypeFactoryProvider extends AbstractTypeFactoryProvider {
         protected JavaType(Container.Entry entry, ClassReader classReader, final int outerAccess) {
             this.entry = entry;
 
-            ClassVisitor classAndInnerClassesVisitor = new ClassVisitor(Opcodes.ASM7) {
+            ClassVisitor classAndInnerClassesVisitor = new ClassVisitor(Opcodes.ASM9) {
                 @Override
                 public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
                     JavaType.this.access = (outerAccess == -1) ? access : outerAccess;
@@ -157,12 +157,12 @@ public class ClassFileTypeFactoryProvider extends AbstractTypeFactoryProvider {
 
                         if (innerEntry != null) {
                             try (InputStream is = innerEntry.getInputStream()) {
-                                ClassReader classReader = new ClassReader(is);
+                                ClassReader classReader = ClassReaderUtil.newClassReader(is);
                                 if (innerTypes == null) {
                                     innerTypes = new ArrayList<>();
                                 }
                                 innerTypes.add(new JavaType(innerEntry, classReader, access));
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 assert ExceptionUtil.printStackTrace(e);
                             }
                         }
@@ -194,7 +194,7 @@ public class ClassFileTypeFactoryProvider extends AbstractTypeFactoryProvider {
                 displayTypeName = displayTypeName.substring(lastPackageSeparatorIndex+1);
             }
 
-            ClassVisitor fieldsAndMethodsVisitor = new ClassVisitor(Opcodes.ASM7) {
+            ClassVisitor fieldsAndMethodsVisitor = new ClassVisitor(Opcodes.ASM9) {
                 @Override
                 public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
                     if ((access & (Opcodes.ACC_SYNTHETIC|Opcodes.ACC_ENUM)) == 0) {
@@ -249,7 +249,7 @@ public class ClassFileTypeFactoryProvider extends AbstractTypeFactoryProvider {
 
                 if (entry != null) {
                     try (InputStream is = entry.getInputStream()) {
-                        ClassReader classReader = new ClassReader(is);
+                        ClassReader classReader = ClassReaderUtil.newClassReader(is);
                         InnerClassVisitor classVisitor = new InnerClassVisitor(name);
 
                         classReader.accept(classVisitor, ClassReader.SKIP_CODE|ClassReader.SKIP_DEBUG|ClassReader.SKIP_FRAMES);
@@ -260,7 +260,7 @@ public class ClassFileTypeFactoryProvider extends AbstractTypeFactoryProvider {
                             // Inner class path found => Recursive call
                             return getDisplayTypeName(outerName, packageLength) + '.' + classVisitor.getInnerName();
                         }
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         assert ExceptionUtil.printStackTrace(e);
                     }
                 }
@@ -300,7 +300,7 @@ public class ClassFileTypeFactoryProvider extends AbstractTypeFactoryProvider {
         protected String innerName;
 
         public InnerClassVisitor(String name) {
-            super(Opcodes.ASM7);
+            super(Opcodes.ASM9);
             this.name = name;
         }
 

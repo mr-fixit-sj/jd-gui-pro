@@ -8,13 +8,13 @@
 package org.jd.gui.service.fileloader;
 
 import org.jd.gui.api.API;
+import org.jd.gui.util.classfile.ClassReaderUtil;
 import org.jd.gui.util.exception.ExceptionUtil;
 import org.objectweb.asm.ClassReader;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 public class ClassFileLoaderProvider extends AbstractTypeFileLoaderProvider {
     protected static final String[] EXTENSIONS = { "class" };
@@ -30,11 +30,11 @@ public class ClassFileLoaderProvider extends AbstractTypeFileLoaderProvider {
     @Override
     public boolean load(API api, File file) {
         try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
-            ClassReader classReader = new ClassReader(bis);
+            ClassReader classReader = ClassReaderUtil.newClassReader(bis);
             String pathInFile = classReader.getClassName().replace("/", File.separator) + ".class";
 
             return load(api, file, pathInFile);
-        } catch (IOException e) {
+        } catch (Exception e) {
             assert ExceptionUtil.printStackTrace(e);
             return false;
         }

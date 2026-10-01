@@ -13,6 +13,9 @@ JD-GUI is a standalone graphical utility that displays Java source codes of
 for instant access to methods and fields.
 
 ## How to build JD-GUI ?
+Requires JDK 17 or later (with the `jmods` directory, used by ProGuard). The resulting
+JD-GUI still runs on Java 8+, and reads class files up to Java 27 (newer versions are read
+on a best-effort basis).
 ```
 > git clone https://github.com/java-decompiler/jd-gui.git
 > cd jd-gui
@@ -23,8 +26,8 @@ generate :
 - _"build/libs/jd-gui-x.y.z-min.jar"_
 - _"build/distributions/jd-gui-windows-x.y.z.zip"_
 - _"build/distributions/jd-gui-osx-x.y.z.tar"_
-- _"build/distributions/jd-gui-x.y.z.deb"_
-- _"build/distributions/jd-gui-x.y.z.rpm"_
+- _"build/distributions/jd-gui_x.y.z-0_all.deb"_
+- _"build/distributions/jd-gui-x.y.z-0.noarch.rpm"_
 
 ## How to launch JD-GUI ?
 - Double-click on _"jd-gui-x.y.z.jar"_
