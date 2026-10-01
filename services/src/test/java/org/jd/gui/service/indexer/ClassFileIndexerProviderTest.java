@@ -68,7 +68,7 @@ public class ClassFileIndexerProviderTest {
     }
 
     protected static Map<String, byte[]> compile(int release) {
-        Assume.assumeTrue("Requires JDK " + release + "+", runtimeFeatureVersion() >= release);
+        Assume.assumeTrue("Requires JDK 17+", (release >= 17) && (runtimeFeatureVersion() >= release));
         return InMemoryClassFiles.compile(release);
     }
 

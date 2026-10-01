@@ -11,7 +11,6 @@ plugins {
     id 'java'
     id 'distribution'
     id 'edu.sc.seis.launch4j' version '3.0.6'
-    id 'com.netflix.nebula.ospackage' version '11.11.2'    // RPM & DEB support
 }
 
 // Common configuration //
@@ -118,34 +117,6 @@ launch4j {
     bundledJrePath = '%JAVA_HOME%'
 }
 
-// Packages for Linux //
-ospackage {
-    buildDeb.dependsOn 'proguard'
-    buildRpm.dependsOn 'proguard'
-
-    license = file('LICENSE')
-    maintainer = 'Seb Jonckheere <9676530+mr-fixit-sj@users.noreply.github.com>'
-    os = LINUX
-    packageDescription = 'JD-GUI, a standalone graphical utility that displays Java sources from CLASS files'
-    packageGroup = 'java'
-    packageName = project.name
-    release = '0'
-    summary = 'A Java Decompiler'
-    url = 'https://github.com/mr-fixit-sj/jd-gui-pro'
-
-    into '/opt/' + project.name
-    from (proguard.outJarFiles[0]) {
-        filePermissions { unix(0755) }
-    }
-    from ('src/linux/resources/') {
-        filePermissions { unix(0755) }
-    }
-    from 'LICENSE', 'NOTICE', 'README.md'
-
-    postInstall 'cd /opt/' + project.name + '; ln -s ./' + file(proguard.outJarFiles[0]).name + ' ./jd-gui.jar; xdg-icon-resource install --size 128 --novendor ./jd_icon_128.png jd-gui; xdg-desktop-menu install ./*.desktop'
-    preUninstall 'cd /opt/' + project.name + '; rm -f ./jd-gui.jar; rm -fr ./ext; xdg-desktop-menu uninstall ./*.desktop'
-}
-
 // Distributions for OSX and Windows //
 distributions {
     osx.contents {
@@ -180,6 +151,3 @@ distributions {
     osxDistTar.dependsOn 'proguard'
     osxDistZip.dependsOn 'proguard'
 }
-
-build.finalizedBy buildDeb
-build.finalizedBy buildRpm

@@ -1,5 +1,7 @@
 # JD-GUI
 
+[![CI](https://github.com/mr-fixit-sj/jd-gui-pro/actions/workflows/ci.yml/badge.svg)](https://github.com/mr-fixit-sj/jd-gui-pro/actions/workflows/ci.yml)
+
 JD-GUI, a standalone graphical utility that displays Java sources from CLASS files.
 
 This is a fork of [java-decompiler/jd-gui](https://github.com/java-decompiler/jd-gui), updated to work
@@ -18,8 +20,8 @@ for instant access to methods and fields.
 
 ## How to build JD-GUI ?
 Requirements:
-- A JDK between 9 and 24 that includes the `jmods` directory (used by ProGuard). Tested with JDK 21.
-  JDK 25+ is not supported yet by the Gradle version used (8.14).
+- A JDK between 11 and 24 that includes the `jmods` directory (used by ProGuard). Built and tested
+  by CI with JDK 11, 17 and 21. JDK 25+ is not supported yet by the Gradle version used (8.14).
 - Network access to Maven Central, the Gradle Plugin Portal and [JitPack](https://jitpack.io)
   (JD-Core is no longer published on Maven Central and is built by JitPack from its GitHub repository).
 
@@ -33,8 +35,6 @@ generate :
 - _"build/libs/jd-gui-x.y.z-min.jar"_
 - _"build/distributions/jd-gui-windows-x.y.z.zip"_
 - _"build/distributions/jd-gui-osx-x.y.z.tar"_
-- _"build/distributions/jd-gui_x.y.z-0_all.deb"_
-- _"build/distributions/jd-gui-x.y.z-0.noarch.rpm"_
 
 The resulting JD-GUI runs on Java 8+.
 
@@ -43,7 +43,8 @@ The resulting JD-GUI runs on Java 8+.
   for Java 14 and later (ASM upgraded from 7.1 to 9.10.1).
 - String constant search also matches multi-line strings (text blocks).
 - The build runs on current JDKs: Gradle 8.14 instead of 5.2.1, Maven Central and JitPack instead
-  of the discontinued JCenter, and updated ProGuard, Launch4j and OS package plugins.
+  of the discontinued JCenter, and updated ProGuard and Launch4j plugins.
+- The Linux `.deb` and `.rpm` packages are no longer built: on Linux, run the jar directly.
 
 ## Supported class file versions
 - Browsing, search, "Open Type" and "Open Type Hierarchy" support class files up to Java 27.
@@ -53,6 +54,10 @@ The resulting JD-GUI runs on Java 8+.
   appear as classes extending `java.lang.Record` (with `toString`/`equals`/`hashCode` shown as
   byte code), `sealed`/`permits` is omitted and methods using pattern matching `switch` are
   shown as byte code.
+
+Every push to `master` and every pull request is built and tested by
+[GitHub Actions](https://github.com/mr-fixit-sj/jd-gui-pro/actions/workflows/ci.yml); the jars and the
+Windows and macOS distributions of each run can be downloaded from its "jd-gui" artifact.
 
 ## How to launch JD-GUI ?
 - Double-click on _"jd-gui-x.y.z.jar"_
