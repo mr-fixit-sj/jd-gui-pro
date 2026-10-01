@@ -14,10 +14,10 @@ plugins {
 }
 
 // Common configuration //
-rootProject.version='1.6.6'
+rootProject.version='2.0.0'
 // JD-Core Pro (https://github.com/mr-fixit-sj/jd-core-pro), built by JitPack from a tag or a commit
-rootProject.ext.set('jdCoreVersion', '1.2.0')
-rootProject.ext.set('jdCoreRef', 'f7e2ade1ce')
+rootProject.ext.set('jdCoreVersion', '2.0.0')
+rootProject.ext.set('jdCoreRef', '8b9c0b221d')
 
 allprojects {
     apply plugin: 'eclipse'

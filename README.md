@@ -49,7 +49,7 @@ The resulting JD-GUI runs on Java 8+.
 - The Linux `.deb` and `.rpm` packages are no longer built: on Linux, run the jar directly.
 
 ## Supported class file versions
-- Decompilation is done by [JD-Core Pro](https://github.com/mr-fixit-sj/jd-core-pro) 1.2.0, a fork of JD-Core
+- Decompilation is done by [JD-Core Pro](https://github.com/mr-fixit-sj/jd-core-pro) 2.0.0, a fork of JD-Core
   1.1.3 that supports the language features up to Java 17: switch expressions, type patterns
   (`o instanceof String s`), records, sealed classes and text blocks. It also fixes the decompilation of string
   concatenations and try-with-resources compiled by JDK 9 and later.
